@@ -24,7 +24,12 @@ function validateYearOfBirth(year) {
     if (cleanedYear.length !== 4 || isNaN(parseInt(cleanedYear, 10))) {
         return `not valid year <b>${year}</b> (invalid format or non-numeric characters)`;
     }
-    return parseInt(cleanedYear, 10);
+
+    const parsedYear=parseInt(cleanedYear, 10);
+    if (parsedYear <= 1900) {
+        return `not valid`
+    }
+    return parsedYear
 }
 
 
@@ -45,6 +50,7 @@ userBirtsday = removeSpaces(userBirtsday)
 const validYear = validateYearOfBirth(userBirtsday)
 
 let age;
+let yearOfBirth;
 
 if (typeof validYear === 'string') {
     yearOfBirth = validYear;
