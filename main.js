@@ -39,9 +39,9 @@ function calculateFullAge(birhtsday) {
 }
 
 let firstName = prompt("Видите имя")
-firstName = trimSpaces(firstName)
+firstName = trimSpaces(firstName).charAt(0).toUpperCase()+firstName.slice(1)
 let lastName = prompt("Ведите фамилию")
-lastName = trimSpaces(lastName)
+lastName = trimSpaces(lastName).charAt(0).toUpperCase()+firstName.slice(1)
 let email = prompt("Видите email")
 email = removeSpaces(email).toLowerCase()
 email = valleDateEmail(email)
