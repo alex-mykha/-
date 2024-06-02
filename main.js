@@ -1,72 +1,64 @@
 function trimSpaces(string) {
-    return string.trim()
+    const trimmedString = string.trim();
+    return trimmedString.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
 }
 
 function removeSpaces(string) {
-    return string.replace(/\s+/g, "")
+    return string.replace(/\s+/g, "");
 }
 
-function valleDateEmail(email) {
-    if (!email.includes("@")) {
-        return `not vallid ${email}`
+function validateEmail(email) {
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail.includes("@") || trimmedEmail.startsWith("@") || trimmedEmail.endsWith("@")) {
+        return `not valid ${trimmedEmail}`;
     }
-    if (email.startsWith("@")) {
-        return `not vallid ${email}`
-    }
-    if (email.endsWith("@")) {
-        return `not vallid ${email}`
-    }
-    return email
+    return trimmedEmail.toLowerCase();
 }
 
 function validateYearOfBirth(year) {
     const cleanedYear = year.replace(/[^0-9]/g, '');
-    if (cleanedYear.length !== 4 || isNaN(parseInt(cleanedYear, 10))) {
-        return `not valid year <b>${year}</b> (invalid format or non-numeric characters)`;
+    if (cleanedYear.length !== 4 || isNaN(parseInt(cleanedYear, 10)) || parseInt(cleanedYear, 10) <= 1900) {
+        return "dinosaur";
     }
-
-    const parsedYear=parseInt(cleanedYear, 10);
-    if (parsedYear <= 1900) {
-        return `not valid`
-    }
-    return parsedYear
+    return parseInt(cleanedYear, 10);
 }
 
-
-function calculateFullAge(birhtsday) {
-    const curentYear = new Date().getFullYear()
-    return curentYear - birhtsday
+function calculateFullAge(birthday) {
+    const currentYear = new Date().getFullYear();
+    return currentYear - birthday;
 }
 
-let firstName = prompt("Видите имя")
-firstName = trimSpaces(firstName).charAt(0).toUpperCase()+firstName.slice(1)
-let lastName = prompt("Ведите фамилию")
-lastName = trimSpaces(lastName).charAt(0).toUpperCase()+firstName.slice(1)
-let email = prompt("Видите email")
-email = removeSpaces(email).toLowerCase()
-email = valleDateEmail(email)
-let userBirtsday = prompt("Ведите год рождения")
-userBirtsday = removeSpaces(userBirtsday)
-const validYear = validateYearOfBirth(userBirtsday)
+let firstName = prompt("Введите имя");
+firstName = trimSpaces(firstName);
 
-let age;
-let yearOfBirth;
+let lastName = prompt("Введите фамилию");
+lastName = trimSpaces(lastName);
 
-if (typeof validYear === 'string') {
-    yearOfBirth = validYear;
+let email = prompt("Введите email");
+email = removeSpaces(email);
+email = validateEmail(email);
+
+let userBirthday = prompt("Введите год рождения");
+userBirthday = removeSpaces(userBirthday);
+const validYear = validateYearOfBirth(userBirthday);
+
+let age, yearOfBirth;
+
+if (validYear === "dinosaur") {
+    yearOfBirth = "Динозавр";
     age = 'N/A';
 } else {
     yearOfBirth = validYear;
     age = calculateFullAge(validYear);
 }
-const outPut = `
-<ul>
-<li>Имя: ${firstName}</li>
-<li>Фамилия: ${lastName}</li>
-<li>Емайл: ${email}</li>
-<li>Год рождения: ${userBirtsday}</li>
-<li>Возраст: ${age}</li>
-</ul>
 
-`
-document.body.innerHTML = outPut
+const output = `
+<ul>
+    <li>Имя: ${firstName}</li>
+    <li>Фамилия: ${lastName}</li>
+    <li>Email: ${email}</li>
+    <li>Год рождения: ${yearOfBirth}</li>
+    <li>Возраст: ${age}</li>
+</ul>`;
+
+document.body.innerHTML = output;
